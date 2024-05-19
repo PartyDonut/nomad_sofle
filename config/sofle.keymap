@@ -87,9 +87,9 @@
     };
 
     behaviors {
-        mo_tog: behavior_mo_tog {
+        layer_hold_toggle: layer_hold_toggle {
             compatible = "zmk,behavior-hold-tap";
-            label = "mo_tog";
+            label = "LAYER_HOLD_TOGGLE";
             #binding-cells = <2>;
             flavor = "hold-preferred";
             tapping-term-ms = <125>;
@@ -111,6 +111,15 @@
 
             tapping-term-ms = <150>;
         };
+
+        quick_hold_tap: quick_hold_tap {
+            compatible = "zmk,behavior-hold-tap";
+            label = "QUICK_HOLD_TAP";
+            bindings = <&mo>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <125>;
+        };
     };
 
     combos {
@@ -129,21 +138,21 @@
 
         default_layer {
             bindings = <
-&kp ESC     &kp N1  &kp N2     &kp N3    &kp N4    &kp N5                                 &kp N6  &kp N7         &kp N8     &kp N9     &kp N0    &kp BACKSLASH
-&kp TAB     &kp Q   &kp W      &kp E     &kp R     &kp T                                  &kp Y   &kp U          &kp I      &kp O      &kp P     &kp SQT
-&kp LSHIFT  &kp A   &kp S      &kp D     &kp F     &kp G                                  &kp H   &kp J          &kp K      &kp L      &kp SEMI  &kp RIGHT_SHIFT
-&kp LCTRL   &kp Z   &kp X      &kp C     &kp V     &kp B   &lt 5 C_MUTE    &kp F24        &kp N   &kp M          &kp COMMA  &kp DOT    &kp FSLH  &kp MINUS
-                    &kp ENTER  &kp LGUI  &kp LALT  &mo 1   &kp SPACE       &kp BACKSPACE  &mo 2   &kp RIGHT_GUI  &kp RALT   &kp ENTER
+&kp ESC     &kp N1  &kp N2     &kp N3    &kp N4    &kp N5                                             &kp N6  &kp N7         &kp N8     &kp N9     &kp N0    &kp BACKSLASH
+&kp TAB     &kp Q   &kp W      &kp E     &kp R     &kp T                                              &kp Y   &kp U          &kp I      &kp O      &kp P     &kp SQT
+&kp LSHIFT  &kp A   &kp S      &kp D     &kp F     &kp G                                              &kp H   &kp J          &kp K      &kp L      &kp SEMI  &kp RIGHT_SHIFT
+&kp LCTRL   &kp Z   &kp X      &kp C     &kp V     &kp B   &quick_hold_tap 5 C_MUTE    &kp F24        &kp N   &kp M          &kp COMMA  &kp DOT    &kp FSLH  &kp MINUS
+                    &kp ENTER  &kp LGUI  &kp LALT  &mo 1   &kp SPACE                   &kp BACKSPACE  &mo 2   &kp RIGHT_GUI  &kp RALT   &kp ENTER
             >;
         };
 
         lower_layer {
             bindings = <
-&kp GRAVE      &kp F1        &kp F2    &kp F3          &kp F4       &kp F5                                    &kp F6     &kp F7    &kp F8           &kp F9      &kp F10          &kp F11
+&kp GRAVE      &kp F1          &kp F2    &kp F3        &kp F4       &kp F5                                    &kp F6     &kp F7    &kp F8           &kp F9      &kp F10          &kp F11
 &kp LA(SPACE)  &msc MOVE_DOWN  &kp UP    &msc MOVE_UP  &kp DELETE   &kp LC(LS(L))                             &kp N6     &kp N7    &kp N8           &kp N9      &kp PRINTSCREEN  &kp F12
-&trans         &kp LEFT      &kp DOWN  &kp RIGHT       &mkp MB4     &mkp MB5                                  &kp CARET  &kp AMPS  &kp KP_MULTIPLY  &kp LPAR    &kp RPAR         &kp PIPE
-&trans         &trans        &trans    &kp Y           &kp PAGE_UP  &kp PAGE_DOWN  &sys_reset    &bootloader  &kp LBKT   &kp RBKT  &kp SEMI         &kp INSERT  &kp BSLH         &trans
-                             &trans    &trans          &trans       &trans         &caps_word    &trans       &trans     &trans    &trans           &trans
+&trans         &kp LEFT        &kp DOWN  &kp RIGHT     &mkp MB4     &mkp MB5                                  &kp CARET  &kp AMPS  &kp KP_MULTIPLY  &kp LPAR    &kp RPAR         &kp PIPE
+&trans         &trans          &trans    &kp Y         &kp PAGE_UP  &kp PAGE_DOWN  &sys_reset    &bootloader  &kp LBKT   &kp RBKT  &kp SEMI         &kp INSERT  &kp BSLH         &trans
+                               &trans    &trans        &trans       &trans         &caps_word    &trans       &trans     &trans    &trans           &trans
             >;
         };
 
@@ -159,11 +168,11 @@
 
         Mouse_Layer {
             bindings = <
-&trans  &trans          &trans          &trans           &trans  &trans                    &trans  &trans     &trans        &trans          &trans  &trans
-&trans  &msc MOVE_DOWN    &mmv MOVE_UP    &msc MOVE_UP   &trans  &trans                    &trans  &trans     &msc MOVE_DOWN  &msc MOVE_UP  &trans  &trans
-&trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans                    &trans  &mkp LCLK  &mkp MCLK     &mkp RCLK       &trans  &trans
-&trans  &trans          &trans          &trans           &trans  &trans  &trans    &trans  &trans  &trans     &trans        &trans          &trans  &trans
-                        &trans          &trans           &trans  &trans  &trans    &trans  &trans  &trans     &trans        &trans
+&trans  &trans          &trans          &trans           &trans  &trans                    &trans  &trans     &trans          &trans        &trans  &trans
+&trans  &msc MOVE_DOWN  &mmv MOVE_UP    &msc MOVE_UP     &trans  &trans                    &trans  &trans     &msc MOVE_DOWN  &msc MOVE_UP  &trans  &trans
+&trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans                    &trans  &mkp LCLK  &mkp MCLK       &mkp RCLK     &trans  &trans
+&trans  &trans          &trans          &trans           &trans  &trans  &trans    &trans  &trans  &trans     &trans          &trans        &trans  &trans
+                        &trans          &trans           &trans  &trans  &trans    &trans  &trans  &trans     &trans          &trans
             >;
 
             label = "Mouse Layer";
