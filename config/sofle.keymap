@@ -24,7 +24,7 @@
 #define MOUSE 3
 #define ADJUST 4
 
-#define U_MOUSE_SCROLL_MAX -10   				 /* <--- New max speed setting (default: 10) */
+#define U_MOUSE_SCROLL_MAX -50   				 /* <--- New max speed setting (default: 10) */
 #define SCROLL_UP SCROLL_VERT(U_MOUSE_SCROLL_MAX)
 #define SCROLL_DOWN SCROLL_VERT(-U_MOUSE_SCROLL_MAX)
 #define SCROLL_LEFT SCROLL_HOR(-U_MOUSE_SCROLL_MAX)
@@ -173,7 +173,7 @@
         lower_layer {
             bindings = <
 &kp GRAVE      &kp F1          &kp F2    &kp F3        &kp F4       &kp F5                                    &kp F6     &kp F7    &kp F8           &kp F9      &kp F10          &kp F11
-&kp LA(SPACE)  &msc MOVE_DOWN  &kp UP    &msc MOVE_UP  &kp DELETE   &kp LC(LS(L))                             &kp N6     &kp N7    &kp N8           &kp N9      &kp PRINTSCREEN  &kp F12
+&kp LA(SPACE)  &msc SCRL_DOWN  &kp UP    &msc SCRL_UP  &kp DELETE   &kp LC(LS(L))                             &kp N6     &kp N7    &kp N8           &kp N9      &kp PRINTSCREEN  &kp F12
 &trans         &kp LEFT        &kp DOWN  &kp RIGHT     &mkp MB4     &mkp MB5                                  &kp CARET  &kp AMPS  &kp KP_MULTIPLY  &kp LPAR    &kp RPAR         &kp PIPE
 &trans         &trans          &trans    &kp Y         &kp PAGE_UP  &kp PAGE_DOWN  &sys_reset    &bootloader  &kp LBKT   &kp RBKT  &kp SEMI         &kp INSERT  &kp BSLH         &trans
                                &trans    &trans        &trans       &trans         &caps_word    &trans       &trans     &trans    &trans           &trans
@@ -193,7 +193,7 @@
         Mouse_Layer {
             bindings = <
 &trans  &trans          &trans          &trans           &trans  &trans                    &trans  &trans     &trans          &trans        &trans  &trans
-&trans  &msc MOVE_DOWN  &mmv MOVE_UP    &msc MOVE_UP     &trans  &trans                    &trans  &trans     &msc MOVE_DOWN  &msc MOVE_UP  &trans  &trans
+&trans  &msc SCRL_DOWN  &mmv MOVE_UP    &msc SCRL_UP     &trans  &trans                    &trans  &trans     &msc MOVE_DOWN  &msc MOVE_UP  &trans  &trans
 &trans  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_RIGHT  &trans  &trans                    &trans  &mkp LCLK  &mkp MCLK       &mkp RCLK     &trans  &trans
 &trans  &trans          &trans          &trans           &trans  &trans  &trans    &trans  &trans  &trans     &trans          &trans        &trans  &trans
                         &trans          &trans           &trans  &trans  &trans    &trans  &trans  &trans     &trans          &trans
