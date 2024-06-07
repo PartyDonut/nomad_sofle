@@ -130,7 +130,7 @@
             #binding-cells = <0>;
             bindings = <&kp C_MUTE>, <&kp C_PLAY_PAUSE>;
 
-            tapping-term-ms = <150>;
+            tapping-term-ms = <125>;
         };
 
         wacky_layer_hold: wacky_layer_hold {
@@ -140,7 +140,7 @@
 
             #binding-cells = <2>;
             tapping-term-ms = <150>;
-            hold-trigger-key-positions = <42>;
+            flavor = "tap-preferred";
         };
     };
 
