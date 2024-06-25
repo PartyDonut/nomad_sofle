@@ -175,11 +175,11 @@
 
         lower_layer {
             bindings = <
-&kp GRAVE      &kp F1        &kp F2    &kp F3          &kp F4       &kp F5                                    &kp F6     &kp F7    &kp F8           &kp F9      &kp F10          &kp F11
-&kp LA(SPACE)  &msc SCRL_UP  &kp UP    &msc SCRL_DOWN  &kp DELETE   &kp LC(LS(L))                             &kp N6     &kp N7    &kp N8           &kp N9      &kp PRINTSCREEN  &kp F12
-&trans         &kp LEFT      &kp DOWN  &kp RIGHT       &mkp MB4     &mkp MB5                                  &kp CARET  &kp AMPS  &kp KP_MULTIPLY  &kp LPAR    &kp RPAR         &trans
-&trans         &trans        &trans    &kp Y           &kp PAGE_UP  &kp PAGE_DOWN  &sys_reset    &bootloader  &kp LBKT   &kp RBKT  &kp SEMI         &kp INSERT  &kp BSLH         &trans
-                             &trans    &trans          &trans       &trans         &caps_word    &trans       &trans     &trans    &trans           &trans
+&kp GRAVE      &kp F1        &kp F2    &kp F3          &kp F4            &kp F5                                        &kp F6     &kp F7    &kp F8           &kp F9      &kp F10          &kp F11
+&kp LA(SPACE)  &msc SCRL_UP  &kp UP    &msc SCRL_DOWN  &kp DELETE        &kp LC(LS(L))                                 &kp N6     &kp N7    &kp N8           &kp N9      &kp PRINTSCREEN  &kp F12
+&trans         &kp LEFT      &kp DOWN  &kp RIGHT       &mkp MB4          &mkp MB5                                      &kp CARET  &kp AMPS  &kp KP_MULTIPLY  &kp LPAR    &kp RPAR         &trans
+&trans         &trans        &trans    &kp Y           &kp LEFT_BRACKET  &kp RIGHT_BRACKET  &sys_reset    &bootloader  &kp LBKT   &kp RBKT  &kp SEMI         &kp INSERT  &kp BSLH         &trans
+                             &trans    &trans          &trans            &trans             &caps_word    &trans       &trans     &trans    &trans           &trans
             >;
         };
 
