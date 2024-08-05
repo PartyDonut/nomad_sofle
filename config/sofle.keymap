@@ -217,11 +217,11 @@
 
         float_layer {
             bindings = <
-&trans  &trans  &trans     &trans          &trans             &trans                             &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &kp X   &kp GRAVE  &kp C_PREVIOUS  &kp C_PLAY_PAUSE   &kp C_NEXT                         &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &kp Y   &kp BSLH   &kp C_MUTE      &kp C_VOLUME_DOWN  &kp C_VOLUME_UP                    &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &kp Z   &trans     &trans          &trans             &trans           &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                &trans     &trans          &trans             &trans           &trans    &trans  &trans  &trans  &trans  &trans
+&trans  &trans                  &trans             &trans          &trans             &trans                             &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp LC(LG(LEFT_ARROW))  &kp LG(LC(RIGHT))  &kp C_PREVIOUS  &kp C_PLAY_PAUSE   &kp C_NEXT                         &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp Y                   &kp BSLH           &kp C_MUTE      &kp C_VOLUME_DOWN  &kp C_VOLUME_UP                    &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp Z                   &trans             &trans          &trans             &trans           &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                                &trans             &trans          &trans             &trans           &trans    &trans  &trans  &trans  &trans  &trans
             >;
         };
 
