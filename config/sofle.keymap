@@ -22,10 +22,13 @@
 #include <dt-bindings/zmk/rgb.h>
 
 #define BASE 0
-#define LOWER 1
-#define RAISE 2
-#define MOUSE 3
-#define ADJUST 4
+#define DVORAK 1
+#define LOWER 2
+#define RAISE 3
+#define MOUSE 4
+#define ADJUST 5
+#define FLOAT 6
+#define LOCK 7
 
 &pinctrl {
     spi3_default: spi3_default {
@@ -170,6 +173,16 @@
 &kp LSHIFT  &kp A   &kp S      &kp D     &kp F     &kp G                                  &kp H   &kp J          &kp K      &kp L      &kp SEMI  &kp RIGHT_SHIFT
 &kp LCTRL   &kp Z   &kp X      &kp C     &kp V     &kp B   &lt 5 C_MUTE    &lt 5 F24      &kp N   &kp M          &kp COMMA  &kp DOT    &kp FSLH  &kp MINUS
                     &kp ENTER  &kp LGUI  &kp LALT  &mo 1   &kp SPACE       &kp BACKSPACE  &mo 2   &kp RIGHT_GUI  &kp RALT   &kp ENTER
+            >;
+        };
+
+colemak_layer {
+        bindings = <  // Define Colemak key bindings
+&kp ESC     &kp N1  &kp N2    &kp N3   &kp N4   &kp N5                                &kp N6    &kp N7      &kp N8     &kp N9    &kp N0  &kp BACKSLASH
+&kp TAB     &kp Q   &kp W     &kp F    &kp P    &kp G                                 &kp J     &kp L       &kp U      &kp Y     &kp SQT &kp SLASH
+&kp LSHIFT  &kp A   &kp R     &kp S    &kp T    &kp D                                 &kp H     &kp N       &kp E      &kp I     &kp O   &kp MINUS
+&kp LCTRL   &kp Z   &kp X     &kp C    &kp V    &kp B    &lt 5 C_MUTE   &lt 5 F24   &kp K     &kp M       &kp COMMA  &kp DOT   &kp FSLH &kp RIGHT_SHIFT
+                &kp ENTER &kp LGUI  &kp LALT &mo 1  &kp SPACE &kp BACKSPACE &mo 2   &kp RIGHT_GUI  &kp RALT  &kp ENTER
             >;
         };
 
