@@ -180,8 +180,8 @@
             bindings = <
 &kp ESC     &kp N1  &kp N2     &kp N3    &kp N4    &kp N5                                 &kp N6  &kp N7         &kp N8     &kp N9     &kp N0    &kp BACKSLASH
 &kp TAB     &kp Q   &kp W      &kp F     &kp P     &kp G                                  &kp J   &kp L          &kp U      &kp Y      &kp SQT   &kp SLASH
-&kp LSHIFT  &kp A   &kp R      &kp S     &kp T     &kp D                                  &kp H   &kp N          &kp E      &kp I      &kp O     &kp MINUS
-&kp LCTRL   &kp Z   &kp X      &kp C     &kp V     &kp B   &lt 6 C_MUTE    &lt 6 F24      &kp K   &kp M          &kp COMMA  &kp DOT    &kp FSLH  &kp RIGHT_SHIFT
+&kp LSHIFT  &kp A   &kp R      &kp S     &kp T     &kp D                                  &kp H   &kp N          &kp E      &kp I      &kp O     &kp RIGHT_SHIFT
+&kp LCTRL   &kp Z   &kp X      &kp C     &kp V     &kp B   &lt 6 C_MUTE    &lt 6 F24      &kp K   &kp M          &kp COMMA  &kp DOT    &kp FSLH  &kp MINUS
                     &kp ENTER  &kp LGUI  &kp LALT  &mo 2   &kp SPACE       &kp BACKSPACE  &mo 3   &kp RIGHT_GUI  &kp RALT   &kp ENTER
             >;
         };
