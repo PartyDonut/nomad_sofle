@@ -156,7 +156,7 @@
         compatible = "zmk,combos";
 
         combo_lock {
-            bindings = <&tog 6>;
+            bindings = <&tog 7>;
             key-positions = <53 56 33 26>;
             layers = <0 3 4 1 2 6>;
             timeout-ms = <50>;
