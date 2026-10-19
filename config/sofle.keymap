@@ -55,7 +55,6 @@
 
     led_strip: ws2812@0 {
         compatible = "worldsemi,ws2812-spi";
-        label = "WS2812";
 
         /* SPI */
 
@@ -71,8 +70,221 @@
     };
 };
 
+/*
+ * RGB matrix (zmk-rgb-matrix). The per-half LED mappings live in
+ * sofle_left.overlay / sofle_right.overlay. Effects, conditions and overlays
+ * must be identical (and in the same order) on both halves, so they live here.
+ */
 / {
-    chosen { zmk,underglow = &led_strip; };
+    behaviors {
+        kprgb: kprgb {
+            compatible = "keypaw,behavior-rgb-matrix";
+            #binding-cells = <2>;
+            initial-effect = <0>;
+            // Single-colour effects start as RGB_COLOR_HSB(190,84,_) (0x29DBFF);
+            // with KEYPAW_RGB_MATRIX_SHARED_COLOR the hue/sat/colour keys recolour
+            // all of them at once, like the old underglow. Effects marked
+            // ignore-user-color keep their own palette. persist-id saves each
+            // effect's colour and speed across restarts.
+            // Must be explicit: the module's "on unless set" default never applies
+            initial-on;
+            // Capped at 80% to save battery (the module default is 40)
+            max-brightness = <80>;
+            initial-brightness = <50>;
+
+            // Typing heatmap: blue -> green -> yellow -> red, spreading to neighbours
+            fx_heatmap: fx_heatmap {
+                compatible = "keypaw,rgb-matrix-heatmap";
+                #binding-cells = <0>;
+                persist-id = "fx_heatmap";
+                ignore-user-color; // keeps its own colour scheme
+                color = <0xFFFFFF>;
+                decrease-delay-ms = <25>;
+                spread = <150>;
+                area-limit = <16>;
+                increase-step = <32>;
+            };
+            fx_solid: fx_solid {
+                compatible = "keypaw,rgb-matrix-solid";
+                #binding-cells = <0>;
+                persist-id = "fx_solid";
+                color = <0x29DBFF>;
+            };
+            fx_breathe: fx_breathe {
+                compatible = "keypaw,rgb-matrix-breathe";
+                #binding-cells = <0>;
+                persist-id = "fx_breathe";
+                color = <0x29DBFF>;
+                duration = <2400>;
+            };
+            fx_rainbow: fx_rainbow {
+                compatible = "keypaw,rgb-matrix-rainbow";
+                #binding-cells = <0>;
+                persist-id = "fx_rainbow";
+                ignore-user-color; // keeps its own colour scheme
+                color = <0xFF0000>;
+                duration = <4000>;
+                basis = "x";
+                direction = "out";
+                palette = "rainbow";
+            };
+            fx_reactive: fx_reactive {
+                compatible = "keypaw,rgb-matrix-reactive";
+                #binding-cells = <0>;
+                persist-id = "fx_reactive";
+                color = <0x29DBFF>;
+                // Light the pressed key plus a fading circle around it
+                spread = "disc";
+                spread-radius = <150>;
+                background-brightness = <0>;
+            };
+            // Pressed keys light in a position-based hue (QMK SPLASH)
+            fx_gradient: fx_gradient {
+                compatible = "keypaw,rgb-matrix-reactive";
+                #binding-cells = <0>;
+                persist-id = "fx_gradient";
+                ignore-user-color; // keeps its own colour scheme
+                color = <0xFF0000>;
+                palette = "gradient";
+                spread = "disc";
+                spread-radius = <150>;
+                background-brightness = <0>;
+            };
+            // Pressed keys flash the opposite hue of the colour
+            fx_complement: fx_complement {
+                compatible = "keypaw,rgb-matrix-reactive";
+                #binding-cells = <0>;
+                persist-id = "fx_complement";
+                color = <0x29DBFF>;
+                palette = "complement";
+                background-brightness = <0>;
+            };
+            // Rings expand outward from every pressed key
+            fx_ripple: fx_ripple {
+                compatible = "keypaw,rgb-matrix-ripple";
+                #binding-cells = <0>;
+                persist-id = "fx_ripple";
+                color = <0x29DBFF>;
+                background-brightness = <0>;
+            };
+        };
+    };
+
+    rgb_conditions: rgb_conditions {
+        compatible = "keypaw,rgb-conditions";
+
+        cond_lower: cond_lower { compatible = "keypaw,rgb-condition-layer"; layer = <LOWER>; only-topmost; };
+        cond_raise: cond_raise { compatible = "keypaw,rgb-condition-layer"; layer = <RAISE>; only-topmost; };
+        cond_mouse: cond_mouse { compatible = "keypaw,rgb-condition-layer"; layer = <MOUSE>; only-topmost; };
+        cond_adjust: cond_adjust { compatible = "keypaw,rgb-condition-layer"; layer = <ADJUST>; only-topmost; };
+        cond_float: cond_float { compatible = "keypaw,rgb-condition-layer"; layer = <FLOAT>; only-topmost; };
+        cond_lock: cond_lock { compatible = "keypaw,rgb-condition-layer"; layer = <LOCK>; only-topmost; };
+
+        cond_ble0: cond_ble0 { compatible = "keypaw,rgb-condition-ble"; profile = <0>; };
+        cond_ble1: cond_ble1 { compatible = "keypaw,rgb-condition-ble"; profile = <1>; };
+        cond_ble2: cond_ble2 { compatible = "keypaw,rgb-condition-ble"; profile = <2>; };
+        cond_ble3: cond_ble3 { compatible = "keypaw,rgb-condition-ble"; profile = <3>; };
+        cond_ble4: cond_ble4 { compatible = "keypaw,rgb-condition-ble"; profile = <4>; };
+
+        cond_adj_ble0: cond_adj_ble0 { compatible = "keypaw,rgb-condition-and"; conditions = <&cond_adjust &cond_ble0>; };
+        cond_adj_ble1: cond_adj_ble1 { compatible = "keypaw,rgb-condition-and"; conditions = <&cond_adjust &cond_ble1>; };
+        cond_adj_ble2: cond_adj_ble2 { compatible = "keypaw,rgb-condition-and"; conditions = <&cond_adjust &cond_ble2>; };
+        cond_adj_ble3: cond_adj_ble3 { compatible = "keypaw,rgb-condition-and"; conditions = <&cond_adjust &cond_ble3>; };
+        cond_adj_ble4: cond_adj_ble4 { compatible = "keypaw,rgb-condition-and"; conditions = <&cond_adjust &cond_ble4>; };
+
+        cond_out_usb: cond_out_usb { compatible = "keypaw,rgb-condition-output"; transport = "usb"; };
+        cond_out_ble: cond_out_ble { compatible = "keypaw,rgb-condition-output"; transport = "ble"; };
+        cond_adj_usb: cond_adj_usb { compatible = "keypaw,rgb-condition-and"; conditions = <&cond_adjust &cond_out_usb>; };
+        cond_adj_bt: cond_adj_bt { compatible = "keypaw,rgb-condition-and"; conditions = <&cond_adjust &cond_out_ble>; };
+
+        // Same threshold as the old STATUS_BATTERY_WARNING_LEVEL
+        cond_batt_low: cond_batt_low { compatible = "keypaw,rgb-condition-battery"; below = <15>; };
+    };
+
+    rgb_overlays: rgb_overlays {
+        compatible = "keypaw,rgb-overlays";
+
+        // Layer indicator on the T key (was LED 1 in the old status overlay)
+        ovl_lower: ovl_lower {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_lower>; keys = <17>;
+            fx_ovl_lower { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0x00C0FF>; };
+        };
+        ovl_raise: ovl_raise {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_raise>; keys = <17>;
+            fx_ovl_raise { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0xFF00C0>; };
+        };
+        ovl_mouse: ovl_mouse {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_mouse>; keys = <17>;
+            fx_ovl_mouse { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0x00FF40>; };
+        };
+        ovl_adjust: ovl_adjust {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adjust>; keys = <17>;
+            fx_ovl_adjust { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0xFFFF00>; };
+        };
+        ovl_float: ovl_float {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_float>; keys = <17>;
+            fx_ovl_float { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0xFF8000>; };
+        };
+        ovl_lock: ovl_lock {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_lock>; keys = <17>;
+            fx_ovl_lock { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0xFF0000>; };
+        };
+
+        // Adjust layer: active BLE profile lights its BT_SEL key
+        ovl_ble0: ovl_ble0 {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adj_ble0>; keys = <1>;
+            fx_ovl_ble0 { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0x0060FF>; };
+        };
+        ovl_ble1: ovl_ble1 {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adj_ble1>; keys = <2>;
+            fx_ovl_ble1 { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0x0060FF>; };
+        };
+        ovl_ble2: ovl_ble2 {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adj_ble2>; keys = <3>;
+            fx_ovl_ble2 { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0x0060FF>; };
+        };
+        ovl_ble3: ovl_ble3 {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adj_ble3>; keys = <4>;
+            fx_ovl_ble3 { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0x0060FF>; };
+        };
+        ovl_ble4: ovl_ble4 {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adj_ble4>; keys = <5>;
+            fx_ovl_ble4 { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0x0060FF>; };
+        };
+
+        // Adjust layer: selected output on the G key (USB = yellow, BLE = magenta,
+        // the old OUTPUT_COLOR_MIN/MAX hues 50 / 300)
+        ovl_out_usb: ovl_out_usb {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adj_usb>; keys = <29>;
+            fx_ovl_out_usb { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0xFFD500>; };
+        };
+        ovl_out_bt: ovl_out_bt {
+            compatible = "keypaw,rgb-overlay"; condition = <&cond_adj_bt>; keys = <29>;
+            fx_ovl_out_bt { compatible = "keypaw,rgb-matrix-solid"; #binding-cells = <0>; color = <0xFF00FF>; };
+        };
+
+        // Battery on the key next to B / N, coloured red (0%) -> green (100%)
+        // like the old BATTERY_COLOR_MIN/MAX (hue 0 -> 160).
+        // Always shown on each half whose own battery is below 15%...
+        ovl_batt_low: ovl_batt_low {
+            compatible = "keypaw,rgb-overlay-battery";
+            condition = <&cond_batt_low>;
+            local;
+            keys = <42 43>;
+            mode = "hue";
+            hue-empty = <0>;
+            hue-full = <160>;
+        };
+        // ...and on the Adjust layer for both halves.
+        ovl_batt: ovl_batt {
+            compatible = "keypaw,rgb-overlay-battery";
+            condition = <&cond_adjust>;
+            keys = <42 43>;
+            mode = "hue";
+            hue-empty = <0>;
+            hue-full = <160>;
+        };
+    };
 };
 
 &sk {
@@ -242,9 +454,9 @@
             display-name = "Adjust layer";
             bindings = <
 &trans             &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                     &to 0            &to 1            &none            &none                             &none  &studio_unlock
-&ext_power EP_OFF  &trans        &none         &none         &none         &none                            &rgb_ug RGB_SAI  &rgb_ug RGB_BRI  &rgb_ug RGB_HUD  &rgb_ug RGB_COLOR_HSB(190,84,43)  &none  &none
-&none              &none         &none         &none         &none         &out OUT_TOG                     &rgb_ug RGB_SAD  &rgb_ug RGB_BRD  &rgb_ug RGB_HUI  &rgb_ug RGB_COLOR_HSB(24,100,50)  &none  &none
-&bt BT_CLR         &none         &none         &none         &none         &rgb_ug RGB_TOG  &none    &none  &rgb_ug RGB_TOG  &rgb_ug RGB_EFF  &none            &none                             &none  &none
+&ext_power EP_OFF  &trans        &none         &none         &none         &none                            &kprgb RGB_SAI  &kprgb RGB_BRI  &kprgb RGB_HUD  &kprgb RGB_COLOR_HSB(190,84,43)  &none  &none
+&none              &none         &none         &none         &none         &out OUT_TOG                     &kprgb RGB_SAD  &kprgb RGB_BRD  &kprgb RGB_HUI  &kprgb RGB_COLOR_HSB(24,100,50)  &none  &none
+&bt BT_CLR         &none         &none         &none         &none         &kprgb RGB_TOG  &none    &none  &kprgb RGB_TOG  &kprgb RGB_EFF  &kprgb RGB_EFR   &none                            &none  &none
                                  &none         &none         &none         &none            &none    &none  &none            &none            &none            &none
             >;
         };

@@ -1,0 +1,29 @@
+/*
+ * RGB matrix LED mapping for the left half.
+ *
+ * Entry N is the key position above LED N, in WS2812 chain order. The order
+ * snakes down/up the columns from the inner column outwards, with the inner
+ * key next to B/N (LED 4) and the thumb keys in between. Confirmed against
+ * the old status LEDs: LED 4 = key next to B, LEDs 22 21 12 11 0 = keys 1-5.
+ */
+
+#include <dt-bindings/keypaw/rgb_matrix.h>
+
+/ {
+    rgb_matrix: rgb-matrix {
+        compatible = "keypaw,rgb-matrix";
+        strip = <&led_strip>;
+        physical-layout = <&josefadamcik_sofle_layout>;
+        mapping = <
+             5 17 29 41      // col 5, down
+            42               // inner key right of B
+            54 53 52         // thumbs, inner to middle
+            40 28 16  4      // col 4, up
+             3 15 27 39      // col 3, down
+            51 50            // thumbs, outer
+            38 26 14  2      // col 2, up
+             1 13 25 37      // col 1, down
+            36 24 12  0      // col 0, up
+        >;
+    };
+};

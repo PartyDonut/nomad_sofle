@@ -1,11 +1,14 @@
 manifest:
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/PartyDonut/
+    - name: partydonut
+      url-base: https://github.com/PartyDonut
   projects:
     - name: zmk
-      remote: zmkfirmware
+      remote: partydonut
       revision: main
       import: app/west.yml
+    - name: zmk-rgb-matrix
+      remote: partydonut
+      revision: rgb-changes
   self:
     path: config
