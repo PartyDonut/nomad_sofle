@@ -100,7 +100,7 @@
                 ignore-user-color; // keeps its own colour scheme
                 color = <0xFFFFFF>;
                 decrease-delay-ms = <25>;
-                spread = <150>;
+                spread = <300>;
                 area-limit = <16>;
                 increase-step = <32>;
             };
@@ -135,7 +135,7 @@
                 color = <0x29DBFF>;
                 // Light the pressed key plus a fading circle around it
                 spread = "disc";
-                spread-radius = <150>;
+                spread-radius = <300>;
                 background-brightness = <0>;
             };
             // Pressed keys light in a position-based hue (QMK SPLASH)
@@ -147,7 +147,7 @@
                 color = <0xFF0000>;
                 palette = "gradient";
                 spread = "disc";
-                spread-radius = <150>;
+                spread-radius = <300>;
                 background-brightness = <0>;
             };
             // Pressed keys flash the opposite hue of the colour
